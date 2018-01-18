@@ -44,8 +44,10 @@ namespace AutoSavePlus
         {
             if (!enabled || args.NewDocument == null) return;
             if (!args.NewDocument.IsFilePathDefined) {
-                args.NewDocument.Properties.ProjectFileName = "unnamed";
-                args.NewDocument.FilePath = Grasshopper.Folders.AutoSaveFolder + "\\unnamed.gh";
+                DateTime now = DateTime.Now; 
+                string name = string.Format("unnamed ({0}.{1}.{2}, {3}.{4}.{5})", now.Day,now.Month,now.Year,now.Hour,now.Minute,now.Second) ;
+                args.NewDocument.Properties.ProjectFileName = name;
+                args.NewDocument.FilePath = Grasshopper.Folders.AutoSaveFolder + "\\"+name+".gh";
                 args.NewDocument.AutoSave(GH_AutoSaveTrigger.data_matching_event, Guid.Empty);
             }
            
@@ -67,7 +69,7 @@ namespace AutoSavePlus
             }
         }
         public override string Name => "AutoSave Plus";
-        public override string Description => "Perform autosave on an unsaved document";
+        public override string Description => "Automatically saves new documents";
         public override Bitmap Icon_24x24 => Properties.Resources.Icon24x24;
         public override bool Contains(System.Drawing.Point pt_control, PointF pt_canvas) => false;
         public override void Render(GH_Canvas Canvas) { }
@@ -117,6 +119,7 @@ namespace AutoSavePlus
             {
                 return "dga_3@hotmail.com";
             }
-        }
+        } 
+        public override string Version => "2nd";
     }
 }
